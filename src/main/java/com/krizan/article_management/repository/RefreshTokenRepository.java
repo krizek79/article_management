@@ -1,13 +1,13 @@
 package com.krizan.article_management.repository;
 
-import com.krizan.article_management.model.AppUser;
+import com.krizan.article_management.model.RefreshToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface AppUserRepository extends JpaRepository<AppUser, Long> {
+public interface RefreshTokenRepository extends JpaRepository<RefreshToken, Long> {
 
-    Optional<AppUser> findByUsername(String username);
+    Optional<RefreshToken> findByToken(String token);
 }
