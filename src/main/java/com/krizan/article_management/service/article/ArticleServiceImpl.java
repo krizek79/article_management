@@ -35,8 +35,10 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Article createArticle(ArticleRequest request) {
-        if (request.getTitle().isEmpty() || request.getText().isEmpty())
-            throw new IllegalOperationException("All fields must be filled.");
+        if (request.getTitle().isEmpty() || request.getTitle() == null)
+            throw new IllegalOperationException("Title cannot be empty.");
+        if (request.getText().isEmpty() || request.getText() == null)
+            throw new IllegalOperationException("Text cannot be empty");
 
         AppUser appUser = appUserService.getCurrentAppUser();
         Article article = Article.builder()

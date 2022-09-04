@@ -5,11 +5,21 @@ import com.krizan.article_management.dto.LoginRequest;
 import com.krizan.article_management.dto.RefreshTokenRequest;
 import com.krizan.article_management.dto.RegistrationRequest;
 import com.krizan.article_management.exception.NotFoundException;
+import com.krizan.article_management.model.AppUser;
 import com.krizan.article_management.model.RefreshToken;
+import com.krizan.article_management.model.Role;
 import com.krizan.article_management.repository.RefreshTokenRepository;
+import com.krizan.article_management.security.JwtProvider;
+import com.krizan.article_management.service.appUser.AppUserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.Instant;
 
 @Service
 @Transactional
@@ -17,20 +27,45 @@ import org.springframework.transaction.annotation.Transactional;
 public class AuthServiceImpl implements AuthService {
 
     private final RefreshTokenRepository refreshTokenRepository;
+    private final AppUserService appUserService;
+    private final JwtProvider jwtProvider;
+    private final AuthenticationManager authenticationManager;
 
     @Override
     public void register(RegistrationRequest request) {
-
+        appUserService.createAppUser(request, Role.READER);
     }
 
     @Override
     public AuthResponse login(LoginRequest request) {
-        return null;
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getUsername(),
+                        request.getPassword()
+                )
+        );
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String token = jwtProvider.generateToken(authentication);
+
+        return AuthResponse.builder()
+                .authenticationToken(token)
+                .refreshToken(generateRefreshToken().getToken())
+                .expiresAt(Instant.now().plusMillis(jwtProvider.getJwtExpirationTimeInMillis()))
+                .username(request.getUsername())
+                .build();
     }
 
     @Override
     public AuthResponse refreshToken(RefreshTokenRequest request) {
-        return null;
+        validateRefreshToken(request.getRefreshToken());
+        AppUser appUser = appUserService.getAppUserByUsername(request.getUsername());
+        String token = jwtProvider.generateTokenWithUsername(appUser);
+        return AuthResponse.builder()
+                .authenticationToken(token)
+                .refreshToken(request.getRefreshToken())
+                .expiresAt(Instant.now().plusMillis(jwtProvider.getJwtExpirationTimeInMillis()))
+                .username(request.getUsername())
+                .build();
     }
 
     @Override

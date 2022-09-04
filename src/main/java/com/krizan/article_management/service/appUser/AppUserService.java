@@ -11,7 +11,8 @@ public interface AppUserService extends UserDetailsService {
 
     AppUser getCurrentAppUser();
     AppUser getAppUserById(Long id);
+    AppUser getAppUserByUsername(String username);
     List<AppUser> getAllAppUsers();
-    AppUser createAppUser(RegistrationRequest request, Role role);
+    void createAppUser(RegistrationRequest request, Role role);
     void deleteAppUser(Long id);
 }

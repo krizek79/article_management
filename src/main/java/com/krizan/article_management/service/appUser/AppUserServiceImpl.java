@@ -1,6 +1,7 @@
 package com.krizan.article_management.service.appUser;
 
 import com.krizan.article_management.dto.RegistrationRequest;
+import com.krizan.article_management.exception.IllegalOperationException;
 import com.krizan.article_management.exception.NotFoundException;
 import com.krizan.article_management.model.AppUser;
 import com.krizan.article_management.model.Role;
@@ -10,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
@@ -20,12 +22,11 @@ import java.util.List;
 public class AppUserServiceImpl implements AppUserService {
 
     private final AppUserRepository appUserRepository;
+    private final BCryptPasswordEncoder encoder;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        AppUser appUser = appUserRepository.findByUsername(username).orElseThrow(
-                () -> new NotFoundException("User with username " + username + " does not exist.")
-        );
+        AppUser appUser = getAppUserByUsername(username);
         return new User(
                 appUser.getUsername(),
                 appUser.getPassword(),
@@ -53,13 +54,35 @@ public class AppUserServiceImpl implements AppUserService {
     }
 
     @Override
+    public AppUser getAppUserByUsername(String username) {
+        return appUserRepository.findByUsername(username).orElseThrow(
+                () -> new NotFoundException("User not found")
+        );
+    }
+
+    @Override
     public List<AppUser> getAllAppUsers() {
         return appUserRepository.findAll();
     }
 
     @Override
-    public AppUser createAppUser(RegistrationRequest request, Role role) {
-        return null;
+    public void createAppUser(RegistrationRequest request, Role role) {
+        if(request.getUsername().isEmpty() || request.getUsername() == null)
+            throw new IllegalOperationException("Username cannot be empty.");
+        if (request.getPassword().isEmpty() || request.getPassword() == null)
+            throw new IllegalOperationException("Password cannot be empty.");
+        if (!request.getPassword().equals(request.getRepeatPassword()))
+            throw new IllegalOperationException("Passwords do not match.");
+
+        AppUser appUser = AppUser.builder()
+                .username(request.getUsername())
+                .password(encoder.encode(request.getPassword()))
+                .role(role)
+                .locked(false)
+                .enabled(true)
+                .build();
+
+        appUserRepository.save(appUser);
     }
 
     @Override
