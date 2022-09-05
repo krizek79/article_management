@@ -35,14 +35,17 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Article createArticle(ArticleRequest request) {
-        if (request.getTitle().isEmpty() || request.getTitle() == null)
+        if (request.getTitle().isEmpty() || request.getTitle() == null) {
             throw new IllegalOperationException("Title cannot be empty.");
-        if (request.getText().isEmpty() || request.getText() == null)
+        }
+        if (request.getText().isEmpty() || request.getText() == null) {
             throw new IllegalOperationException("Text cannot be empty");
+        }
 
-        AppUser appUser = appUserService.getCurrentAppUser();
+        AppUser currentAppUser = appUserService.getCurrentAppUser();
+
         Article article = Article.builder()
-                .author(appUser)
+                .author(currentAppUser)
                 .title(request.getTitle())
                 .text(request.getText())
                 .build();
@@ -53,8 +56,9 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Article editArticle(Long id, ArticleRequest request) {
         Article article = getArticleById(id);
+
         AppUser currentAppUser = appUserService.getCurrentAppUser();
-        if (currentAppUser != article.getAuthor() || !currentAppUser.getRole().equals(Role.ADMIN))
+        if (currentAppUser != article.getAuthor() && !currentAppUser.getRole().equals(Role.ADMIN))
             throw new ForbiddenException("You don't have permission to edit this article.");
 
         if (request.getTitle() != null || !request.getTitle().isEmpty())
@@ -68,8 +72,9 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public void deleteArticle(Long id) {
         Article article = getArticleById(id);
+
         AppUser currentAppUser = appUserService.getCurrentAppUser();
-        if (currentAppUser != article.getAuthor() || !currentAppUser.getRole().equals(Role.ADMIN))
+        if (currentAppUser != article.getAuthor() && !currentAppUser.getRole().equals(Role.ADMIN))
             throw new ForbiddenException("You don't have permission to delete this article.");
 
         articleRepository.delete(article);
