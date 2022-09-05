@@ -1,6 +1,6 @@
 package com.krizan.article_management.service.appUser;
 
-import com.krizan.article_management.dto.RegistrationRequest;
+import com.krizan.article_management.dto.request.RegistrationRequest;
 import com.krizan.article_management.model.AppUser;
 import com.krizan.article_management.model.Role;
 import org.springframework.security.core.userdetails.UserDetailsService;

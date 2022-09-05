@@ -1,6 +1,6 @@
 package com.krizan.article_management.service.article;
 
-import com.krizan.article_management.dto.ArticleRequest;
+import com.krizan.article_management.dto.request.ArticleRequest;
 import com.krizan.article_management.exception.IllegalOperationException;
 import com.krizan.article_management.exception.NotFoundException;
 import com.krizan.article_management.exception.ForbiddenException;

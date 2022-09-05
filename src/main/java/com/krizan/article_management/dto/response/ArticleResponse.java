@@ -1,4 +1,4 @@
-package com.krizan.article_management.dto;
+package com.krizan.article_management.dto.response;
 
 import com.krizan.article_management.model.Article;
 import lombok.Getter;

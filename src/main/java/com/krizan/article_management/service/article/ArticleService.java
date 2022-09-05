@@ -1,6 +1,6 @@
 package com.krizan.article_management.service.article;
 
-import com.krizan.article_management.dto.ArticleRequest;
+import com.krizan.article_management.dto.request.ArticleRequest;
 import com.krizan.article_management.model.Article;
 
 import java.util.List;

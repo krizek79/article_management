@@ -1,7 +1,7 @@
 package com.krizan.article_management.controller;
 
-import com.krizan.article_management.dto.ArticleRequest;
-import com.krizan.article_management.dto.ArticleResponse;
+import com.krizan.article_management.dto.request.ArticleRequest;
+import com.krizan.article_management.dto.response.ArticleResponse;
 import com.krizan.article_management.service.article.ArticleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

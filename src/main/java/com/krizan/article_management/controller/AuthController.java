@@ -1,9 +1,9 @@
 package com.krizan.article_management.controller;
 
-import com.krizan.article_management.dto.AuthResponse;
-import com.krizan.article_management.dto.LoginRequest;
-import com.krizan.article_management.dto.RefreshTokenRequest;
-import com.krizan.article_management.dto.RegistrationRequest;
+import com.krizan.article_management.dto.response.AuthResponse;
+import com.krizan.article_management.dto.request.LoginRequest;
+import com.krizan.article_management.dto.request.RefreshTokenRequest;
+import com.krizan.article_management.dto.request.RegistrationRequest;
 import com.krizan.article_management.service.auth.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

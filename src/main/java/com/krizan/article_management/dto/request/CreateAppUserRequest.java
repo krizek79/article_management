@@ -1,4 +1,4 @@
-package com.krizan.article_management.dto;
+package com.krizan.article_management.dto.request;
 
 import com.krizan.article_management.model.Role;
 import lombok.AllArgsConstructor;

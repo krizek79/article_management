@@ -1,9 +1,9 @@
 package com.krizan.article_management.service.auth;
 
-import com.krizan.article_management.dto.AuthResponse;
-import com.krizan.article_management.dto.LoginRequest;
-import com.krizan.article_management.dto.RefreshTokenRequest;
-import com.krizan.article_management.dto.RegistrationRequest;
+import com.krizan.article_management.dto.response.AuthResponse;
+import com.krizan.article_management.dto.request.LoginRequest;
+import com.krizan.article_management.dto.request.RefreshTokenRequest;
+import com.krizan.article_management.dto.request.RegistrationRequest;
 import com.krizan.article_management.model.RefreshToken;
 
 public interface AuthService {

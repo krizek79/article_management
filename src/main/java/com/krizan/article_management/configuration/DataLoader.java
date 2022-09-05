@@ -1,6 +1,6 @@
 package com.krizan.article_management.configuration;
 
-import com.krizan.article_management.dto.RegistrationRequest;
+import com.krizan.article_management.dto.request.RegistrationRequest;
 import com.krizan.article_management.model.Role;
 import com.krizan.article_management.service.appUser.AppUserService;
 import lombok.RequiredArgsConstructor;
