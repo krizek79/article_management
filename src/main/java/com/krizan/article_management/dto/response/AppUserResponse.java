@@ -21,7 +21,7 @@ public class AppUserResponse {
         this.id = appUser.getId();
         this.username = appUser.getUsername();
         this.role = appUser.getRole();
-        this.locked = appUser.isAccountNonLocked();
+        this.locked = !appUser.isAccountNonLocked();
         this.enabled = appUser.isEnabled();
         this.articles = appUser.getArticles()
                 .stream()

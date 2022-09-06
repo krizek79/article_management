@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class DataLoader implements ApplicationRunner {
+public class InitialDataLoader implements ApplicationRunner {
 
     private final AppUserService appUserService;
 

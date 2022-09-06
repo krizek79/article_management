@@ -43,9 +43,9 @@ public class SecurityConfig {
     private final AppUserService appUserService;
 
     @Value("${jwt.public.key}")
-    RSAPublicKey publicKey;
+    private RSAPublicKey publicKey;
     @Value("${jwt.private.key}")
-    RSAPrivateKey privateKey;
+    private RSAPrivateKey privateKey;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
