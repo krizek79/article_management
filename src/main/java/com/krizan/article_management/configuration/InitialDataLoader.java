@@ -16,7 +16,11 @@ public class InitialDataLoader implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        RegistrationRequest request = new RegistrationRequest("admin", "admin", "admin");
+        RegistrationRequest request = new RegistrationRequest(
+                "admin",
+                "admin",
+                "admin"
+        );
         appUserService.createAppUser(request, Role.ADMIN);
     }
 }

@@ -45,7 +45,7 @@ public class AuthServiceImpl implements AuthService {
                 )
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = jwtProvider.generateToken(authentication);
+        String token = jwtProvider.generateTokenByAuthentication(authentication);
 
         return AuthResponse.builder()
                 .authenticationToken(token)
@@ -59,7 +59,7 @@ public class AuthServiceImpl implements AuthService {
     public AuthResponse refreshToken(RefreshTokenRequest request) {
         validateRefreshToken(request.getRefreshToken());
         AppUser appUser = appUserService.getAppUserByUsername(request.getUsername());
-        String token = jwtProvider.generateTokenWithUsername(appUser);
+        String token = jwtProvider.generateTokenByAppUser(appUser);
         return AuthResponse.builder()
                 .authenticationToken(token)
                 .refreshToken(request.getRefreshToken())

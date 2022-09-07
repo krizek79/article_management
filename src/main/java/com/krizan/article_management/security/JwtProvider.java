@@ -22,13 +22,13 @@ public class JwtProvider {
     @Getter
     private final Long jwtExpirationTimeInMillis = 1_200_000L; // 20 minutes  (60_000L = 1 minute)
 
-    public String generateToken(Authentication authentication) {
+    public String generateTokenByAuthentication(Authentication authentication) {
         User principal = (User) authentication.getPrincipal();
         AppUser appUser = appUserService.getAppUserByUsername(principal.getUsername());
-        return generateTokenWithUsername(appUser);
+        return generateTokenByAppUser(appUser);
     }
 
-    public String generateTokenWithUsername(AppUser appUser) {
+    public String generateTokenByAppUser(AppUser appUser) {
         JwtClaimsSet claimsSet = JwtClaimsSet.builder()
                 .issuer("self")
                 .issuedAt(Instant.now())

@@ -67,9 +67,13 @@ public class AppUserServiceImpl implements AppUserService {
 
     @Override
     public void createAppUser(RegistrationRequest request, Role role) {
-        if(request.getUsername().isEmpty() || request.getUsername() == null)
+        if (request.getUsername() == null)
+            throw new IllegalOperationException("Username cannot be null.");
+        if (request.getUsername().isEmpty())
             throw new IllegalOperationException("Username cannot be empty.");
-        if (request.getPassword().isEmpty() || request.getPassword() == null)
+        if (request.getPassword() == null)
+            throw new IllegalOperationException("Password cannot be null.");
+        if (request.getPassword().isEmpty())
             throw new IllegalOperationException("Password cannot be empty.");
         if (!request.getPassword().equals(request.getRepeatPassword()))
             throw new IllegalOperationException("Passwords do not match.");
