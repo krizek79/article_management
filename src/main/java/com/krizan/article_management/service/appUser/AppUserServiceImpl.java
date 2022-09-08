@@ -42,9 +42,7 @@ public class AppUserServiceImpl implements AppUserService {
     @Override
     public AppUser getCurrentAppUser() {
         Jwt principal = (Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return appUserRepository.findByUsername(principal.getSubject()).orElseThrow(
-                () -> new NotFoundException("User not found.")
-        );
+        return getAppUserByUsername(principal.getSubject());
     }
 
     @Override
