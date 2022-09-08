@@ -55,14 +55,14 @@ class AuthControllerTest {
 
     @Test
     void cannotRegisterAppUserWithWrongRequest() throws Exception {
-        RegistrationRequest request = new RegistrationRequest(
+        RegistrationRequest registrationRequest = new RegistrationRequest(
                 null,
                 "",
                 "pass"
         );
-        String requestJson = toJson(request);
+        String registrationRequestJson = toJson(registrationRequest);
         mockMvc.perform(post("/api/auth/register")
-                .content(requestJson)
+                .content(registrationRequestJson)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
