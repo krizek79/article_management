@@ -4,6 +4,7 @@ import com.krizan.article_management.model.AppUser;
 import com.krizan.article_management.model.Role;
 import lombok.Getter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,7 +16,7 @@ public class AppUserResponse {
     private final Role role;
     private final Boolean locked;
     private final Boolean enabled;
-    private final List<ArticleResponse> articles;
+    private final List<ArticleResponse> articles = new ArrayList<>();
 
     public AppUserResponse(AppUser appUser) {
         this.id = appUser.getId();
@@ -23,9 +24,10 @@ public class AppUserResponse {
         this.role = appUser.getRole();
         this.locked = !appUser.isAccountNonLocked();
         this.enabled = appUser.isEnabled();
-        this.articles = appUser.getArticles()
+        this.articles.addAll(appUser.getArticles()
                 .stream()
                 .map(ArticleResponse::new)
-                .collect(Collectors.toList());
+                .collect(Collectors.toList())
+        );
     }
 }

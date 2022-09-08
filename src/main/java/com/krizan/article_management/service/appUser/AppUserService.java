@@ -13,6 +13,6 @@ public interface AppUserService extends UserDetailsService {
     AppUser getAppUserById(Long id);
     AppUser getAppUserByUsername(String username);
     List<AppUser> getAllAppUsers();
-    void createAppUser(RegistrationRequest request, Role role);
+    AppUser createAppUser(RegistrationRequest request, Role role);
     void deleteAppUser(Long id);
 }

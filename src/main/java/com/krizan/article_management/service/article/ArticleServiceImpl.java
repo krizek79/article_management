@@ -35,12 +35,15 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Article createArticle(ArticleRequest request) {
-        if (request.getTitle().isEmpty() || request.getTitle() == null) {
+        if (request.getTitle() == null)
+            throw new IllegalOperationException("Title cannot be null.");
+        if (request.getTitle().isEmpty())
             throw new IllegalOperationException("Title cannot be empty.");
-        }
-        if (request.getText().isEmpty() || request.getText() == null) {
-            throw new IllegalOperationException("Text cannot be empty");
-        }
+        if (request.getText() == null)
+            throw new IllegalOperationException("Text cannot be null.");
+        if (request.getText().isEmpty())
+            throw new IllegalOperationException(("Text cannot be empty."));
+
 
         AppUser currentAppUser = appUserService.getCurrentAppUser();
 
@@ -49,6 +52,8 @@ public class ArticleServiceImpl implements ArticleService {
                 .title(request.getTitle())
                 .text(request.getText())
                 .build();
+
+        currentAppUser.getArticles().add(article);
 
         return articleRepository.save(article);
     }
@@ -61,10 +66,14 @@ public class ArticleServiceImpl implements ArticleService {
         if (currentAppUser != article.getAuthor() && !currentAppUser.getRole().equals(Role.ADMIN))
             throw new ForbiddenException("You don't have permission to edit this article.");
 
-        if (request.getTitle() != null || !request.getTitle().isEmpty())
-            article.setTitle(request.getTitle());
-        if (request.getText() != null || !request.getText().isEmpty())
-            article.setText(request.getText());
+        if (request.getTitle() != null) {
+            if (!request.getTitle().isEmpty())
+                article.setTitle(request.getTitle());
+        }
+        if (request.getText() != null) {
+            if (!request.getText().isEmpty())
+                article.setText(request.getText());
+        }
 
         return articleRepository.save(article);
     }

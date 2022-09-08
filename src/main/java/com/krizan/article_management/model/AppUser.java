@@ -9,7 +9,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -30,8 +29,8 @@ public class AppUser implements UserDetails {
     private Role role;
     private Boolean locked;
     private Boolean enabled;
-    @OneToMany
-    private List<Article> articles = new ArrayList<>();
+    @OneToMany(orphanRemoval = true)
+    private List<Article> articles;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

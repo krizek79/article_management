@@ -36,8 +36,10 @@ public class AppUserController {
 
     @PostMapping
     @PreAuthorize("hasAuthority('ADMIN')")
-    public void createAppUser(@RequestBody CreateAppUserRequest request) {
-        appUserService.createAppUser(request.getRegistrationRequest(), request.getRole());
+    public ResponseEntity<AppUserResponse> createAppUser(@RequestBody CreateAppUserRequest request) {
+        return new ResponseEntity<>(new AppUserResponse(
+                appUserService.createAppUser(request.getRegistrationRequest(), request.getRole())
+        ), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")

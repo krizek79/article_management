@@ -15,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -66,7 +67,7 @@ public class AppUserServiceImpl implements AppUserService {
     }
 
     @Override
-    public void createAppUser(RegistrationRequest request, Role role) {
+    public AppUser createAppUser(RegistrationRequest request, Role role) {
         if (request.getUsername() == null)
             throw new IllegalOperationException("Username cannot be null.");
         if (request.getUsername().isEmpty())
@@ -82,11 +83,12 @@ public class AppUserServiceImpl implements AppUserService {
                 .username(request.getUsername())
                 .password(encoder.encode(request.getPassword()))
                 .role(role)
+                .articles(new ArrayList<>())
                 .locked(false)
                 .enabled(true)
                 .build();
 
-        appUserRepository.save(appUser);
+        return appUserRepository.save(appUser);
     }
 
     @Override
