@@ -1,4 +1,4 @@
-package com.krizan.article_management.configuration;
+package com.krizan.article_management.utility;
 
 import com.krizan.article_management.dto.request.RegistrationRequest;
 import com.krizan.article_management.model.Role;
